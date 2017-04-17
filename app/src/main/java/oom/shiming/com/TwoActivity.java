@@ -1,6 +1,6 @@
 package oom.shiming.com;
 
-import android.os.SystemClock;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 /**
@@ -15,7 +15,7 @@ public class TwoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_two);
-        SystemClock.sleep(2000);
+//        SystemClock.sleep(2000);
         System.out.println(MainActivity.mMainActivity+"shiming");
     }
 }

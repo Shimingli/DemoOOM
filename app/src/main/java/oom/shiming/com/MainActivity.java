@@ -12,7 +12,7 @@ import android.widget.Button;
 /**
  * @author shiming
  * @time 2017/4/17 15:24
- * @desc
+ * @desc  其实写代码最大的问题，就是引用了本类的context，但是这个方法的静态的 ，所以会内存泄漏
  */
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -42,24 +42,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initView() {
         mGoToActivity = (Button) findViewById(R.id.btn_goto_two_activity);
         mGoToActivity.setOnClickListener(this);
+        SendTextUtils.send(this);
     }
 
     @Override
     public void onClick(View v) {
+
         switch (v.getId()) {
             case R.id.btn_goto_two_activity:
+                //看是没有问题，但是没有发现我们的这个方法是静态的，生命的周期会特别的长，释放不掉这个activity 导致内存泄漏
+                //这个this的对象最好使用的是 app中的getapplicationcontext的context
                 setStatic();
+
+
+                mMainActivity = this;
                 Intent intent = new Intent(this, TwoActivity.class);
                 startActivity(intent);
-//                SystemClock.sleep(600);
                 finish();
                 break;
         }
     }
 
     private void setStatic() {
-//        mMainActivity = this;
-        mView = findViewById(R.id.btn_goto_two_activity);
+        //虽然关闭了，但是不会销毁掉
+        mMainActivity = this;
+//        mView = findViewById(R.id.btn_goto_two_activity);
     }
 
     /**
